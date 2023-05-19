@@ -4,13 +4,25 @@
 import os
 #from apikey import apikey
 
-import streamlit as st
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
 os.environ['OPENAI_API_KEY']
+
+# 무신사 추천순
+# 신상품(재입고)순 - sort=new
+# 낮은 가격순 - sort=price_row
+# 높은 가격순 - sort=price_high
+# 할인율순 - sort=discount_rate
+# 후기순 - sort=emt_high
+# 판매순 -> sub_sort는 사용자가 원하는대로 해도 될듯
+#   1일 - sort=sale_high&sub_sort=1d
+#   1주일 - sort=sale_high&sub_sort=1w 
+#   1개월 - sort=sale_high&sub_sort=1m
+#   3개월 - sort=sale_high&sub_sort=3m
+#   1년 - sort=sale_high&sub_sort=1y
 
 
 def Filtering(user_input):
