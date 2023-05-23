@@ -1,14 +1,14 @@
 #from typing import Any
 from fastapi import FastAPI
-from pydantic import BaseModel, constr
+from pydantic import BaseModel
 from filtering import Filtering
 
 class Item(BaseModel):
-    prompt: constr(min_length=1)
+    prompt: str
 
 app = FastAPI()
 
 @app.post("/lang/")
 async def filtering_prompt(item: Item):
-    url = Filtering(item)
+    url = Filtering(item.prompt)
     return url
