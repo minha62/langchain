@@ -125,16 +125,16 @@ def Filtering(user_input):
       Ex4) 2년 = &sub_sort=2y
 
     Example 1)
-    user input: 40,000원 이하 블랙 니트를 찾아줘
-    URL: https://www.musinsa.com/categories/item/001006?color=2&price1=0&price2=40000
+    user input:40,000원 이하 블랙 니트를 찾아줘
+    URL:https://www.musinsa.com/categories/item/001006?color=2&price1=0&price2=40000
 
     Example 2)
-    user input: 3만원대 화이트 후드를 찾아줘
-    URL: https://www.musinsa.com/categories/item/001004?color=1&price1=30000&price2=39999
+    user input:3만원대 화이트 후드를 찾아줘
+    URL:https://www.musinsa.com/categories/item/001004?color=1&price1=30000&price2=39999
 
     Example 3)
-    user input: 4만원대 브라운 맨투맨 추천해줘. 4개월 동안 판매가 많은순으로 정렬해줘.
-    URL: https://www.musinsa.com/categories/item/001005?color=4&price1=40000&price2=49999&sort=sale_high&sub_sort=4m
+    user input:4만원대 브라운 맨투맨 추천해줘. 4개월 동안 판매가 많은순으로 정렬해줘.
+    URL:https://www.musinsa.com/categories/item/001005?color=4&price1=40000&price2=49999&sort=sale_high&sub_sort=4m
     
     Relavant Information: 
     {history}
