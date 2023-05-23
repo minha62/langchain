@@ -11,20 +11,6 @@ from langchain.memory import ConversationKGMemory
 
 os.environ['OPENAI_API_KEY']
 
-# 무신사 추천순
-# 신상품(재입고)순 - sort=new
-# 낮은 가격순 - sort=price_row
-# 높은 가격순 - sort=price_high
-# 할인율순 - sort=discount_rate
-# 후기순 - sort=emt_high
-# 판매순 -> sub_sort는 사용자가 원하는대로 해도 될듯
-#   1일 - sort=sale_high&sub_sort=1d
-#   1주일 - sort=sale_high&sub_sort=1w 
-#   1개월 - sort=sale_high&sub_sort=1m
-#   3개월 - sort=sale_high&sub_sort=3m
-#   1년 - sort=sale_high&sub_sort=1y
-
-
 def Filtering(user_input):
     llm = OpenAI(temperature=0.9)
 
@@ -46,9 +32,9 @@ def Filtering(user_input):
         "choices": (
           "001002": "셔츠/블라우스",
           "001006": "니트/스웨터",
-          "001010": "긴소매 티셔츠",
+          "001010": "긴팔 티셔츠",
           "001005": "맨투맨/스웨트셔츠",
-          "001001": "반소매 티셔츠",
+          "001001": "반팔 티셔츠",
           "001003": "피케/카라 티셔츠",
           "001008": "기타 상의",
           "001004": "후드 티셔츠",
@@ -114,8 +100,8 @@ def Filtering(user_input):
     ]```
 
     If there is something not including in Filter, you have to add "&includeKeywords=" and the component like this.
-    user input: 2만원대 로고 반팔 티셔츠 찾아줘
-    URL: https://www.musinsa.com/categories/item/001001?color=&price1=20000&price2=29999&includeKeywords=로고
+    user input:2만원대 로고 반팔 티셔츠 찾아줘
+    URL:https://www.musinsa.com/categories/item/001001?color=&price1=20000&price2=29999&includeKeywords=로고
 
     
     If there is something related to period when using filtering "정렬", add "&sub_sort=" and the component like this.
@@ -140,7 +126,7 @@ def Filtering(user_input):
     {history}
 
     Conversation:
-    user input: {input}
+    user input:{input}
     URL:"""
 
     prompt = PromptTemplate(
@@ -160,4 +146,3 @@ def Filtering(user_input):
     )
 
     return conversation_with_kg.predict(input=user_input)
-#return conversation_with_kg.predict(input="2만원대 그래픽 반팔 티셔츠 찾아줘")
