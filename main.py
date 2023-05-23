@@ -1,10 +1,10 @@
-from typing import Any
+#from typing import Any
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
 from filtering import Filtering
 
 class Item(BaseModel):
-    prompt: Any
+    prompt: constr(min_length=1)
 
 app = FastAPI()
 
