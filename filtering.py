@@ -2,17 +2,17 @@
 
 # Bring in deps
 import os
-#from apikey import apikey
+from apikey import apikey
 
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
-os.environ['OPENAI_API_KEY']
+os.environ['OPENAI_API_KEY'] = apikey
 
 def Filtering(user_input):
-    llm = OpenAI(temperature=0.9)
+    llm = OpenAI(temperature=0.5)
 
     template = """You are the helpful agent that creates the filter that matches the user's input. You define the filters and choices in Typescript, and present the selected filters and choices as results using the given filter data.
     - An OR operation is performed between the choices.
