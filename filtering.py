@@ -2,14 +2,14 @@
 
 # Bring in deps
 import os
-from apikey import apikey
+#from apikey import apikey
 
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
-os.environ['OPENAI_API_KEY'] = apikey
+os.environ['OPENAI_API_KEY']
 
 def Filtering(user_input):
     llm = OpenAI(temperature=0.5)
