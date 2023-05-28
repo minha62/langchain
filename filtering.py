@@ -116,7 +116,7 @@ def Filtering(user_input):
 
     Example 2)
     user input:3만원대 린넨 셔츠를 찾아줘
-    URL:https://www.musinsa.com/categories/item/001004?price1=30000&price2=39999&includeKeywords=린넨
+    URL:https://www.musinsa.com/categories/item/001002?price1=30000&price2=39999&includeKeywords=린넨
 
     Example 3)
     user input:4만원대 브라운 맨투맨 추천해줘. 4개월 동안 판매가 많은순으로 정렬해줘.
