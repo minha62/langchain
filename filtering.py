@@ -115,8 +115,8 @@ def Filtering(user_input):
     URL:https://www.musinsa.com/categories/item/001006?color=2&price1=0&price2=40000
 
     Example 2)
-    user input:3만원대 화이트 후드를 찾아줘
-    URL:https://www.musinsa.com/categories/item/001004?color=1&price1=30000&price2=39999
+    user input:3만원대 린넨 셔츠를 찾아줘
+    URL:https://www.musinsa.com/categories/item/001004?price1=30000&price2=39999&includeKeywords=린넨
 
     Example 3)
     user input:4만원대 브라운 맨투맨 추천해줘. 4개월 동안 판매가 많은순으로 정렬해줘.
@@ -135,8 +135,8 @@ def Filtering(user_input):
     )
 
     memory = ConversationKGMemory(llm=llm)
-    memory.save_context({"input":"5만원 이하 네이비 크롭 니트 찾아줘"}, {"output":"https://www.musinsa.com/categories/item/001006?color=36&price1=0&price2=50000&includeKeywords=크롭"})
-    memory.save_context({"input":"40,000원 이하 크롭 블랙 니트를 찾아줘"}, {"output":"https://www.musinsa.com/categories/item/001006?color=2&price1=0&price2=40000&includeKeywords=크롭"})
+    #memory.save_context({"input":"5만원 이하 네이비 크롭 니트 찾아줘"}, {"output":"https://www.musinsa.com/categories/item/001006?color=36&price1=0&price2=50000&includeKeywords=크롭"})
+    #memory.save_context({"input":"40,000원 이하 린넨 셔츠를 찾아줘"}, {"output":"https://www.musinsa.com/categories/item/001002?price1=0&price2=40000&includeKeywords=린넨"})
 
     conversation_with_kg = ConversationChain(
         llm=llm,
@@ -145,4 +145,4 @@ def Filtering(user_input):
         memory=memory
     )
 
-    return conversation_with_kg.predict(input=user_input)
+    return conversation_with_kg.predict(input=user_input).replace('"', '')
