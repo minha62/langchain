@@ -9,9 +9,8 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
-os.environ['OPENAI_API_KEY']
-
-def Filtering(user_input):
+def Filtering(apikey, user_input):
+    os.environ['OPENAI_API_KEY'] = apikey
     llm = OpenAI(temperature=0.5)
 
     template = """You are the helpful agent that creates the filter that matches the user's input. You define the filters and choices in Typescript, and present the selected filters and choices as results using the given filter data.
@@ -100,8 +99,8 @@ def Filtering(user_input):
     ]```
 
     If there is something not including in Filter, you have to add "&includeKeywords=" and the component like this.
-    user input:2만원대 로고 반팔 티셔츠 찾아줘
-    URL:https://www.musinsa.com/categories/item/001001?color=&price1=20000&price2=29999&includeKeywords=로고
+    user input:2만원대 하늘색 로고 반팔 티셔츠 찾아줘
+    URL:https://www.musinsa.com/categories/item/001001?color=37&price1=20000&price2=29999&includeKeywords=로고
 
     
     If there is something related to period when using filtering "정렬", add "&sub_sort=" and the component like this.
@@ -111,8 +110,8 @@ def Filtering(user_input):
       Ex4) 2년 = &sub_sort=2y
 
     Example 1)
-    user input:40,000원 이하 블랙 니트를 찾아줘
-    URL:https://www.musinsa.com/categories/item/001006?color=2&price1=0&price2=40000
+    user input:40,000원 이하 스프라이트 블랙 니트를 찾아줘
+    URL:https://www.musinsa.com/categories/item/001006?color=2&price1=0&price2=40000&includeKeywords=스
 
     Example 2)
     user input:3만원대 린넨 셔츠를 찾아줘
