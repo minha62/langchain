@@ -13,7 +13,7 @@ def Filtering(apikey, user_input):
     os.environ['OPENAI_API_KEY'] = apikey
     llm = OpenAI(temperature=0.5)
 
-    template = """You are the helpful agent that creates the filter that matches the user's input. You define the filters and choices in Typescript, and present the selected filters and choices as results using the given filter data.
+    template = """You are the helpful shopping agent that creates the filter that matches the user's input. You define the filters and choices in Typescript, and present the selected filters and choices as results using the given filter data.
     - An OR operation is performed between the choices.
     - output should be only one URL. do not add any description about output.
     - The filter name and choices given to the data in typescript file should be written exactly as it is.
@@ -134,8 +134,8 @@ def Filtering(apikey, user_input):
     )
 
     memory = ConversationKGMemory(llm=llm)
-    #memory.save_context({"input":"5만원 이하 네이비 크롭 니트 찾아줘"}, {"output":"https://www.musinsa.com/categories/item/001006?color=36&price1=0&price2=50000&includeKeywords=크롭"})
-    #memory.save_context({"input":"40,000원 이하 린넨 셔츠를 찾아줘"}, {"output":"https://www.musinsa.com/categories/item/001002?price1=0&price2=40000&includeKeywords=린넨"})
+    memory.save_context({"input":"..."}, {"output":"..."})
+    memory.save_context({"input":"..."}, {"output":"..."})
 
     conversation_with_kg = ConversationChain(
         llm=llm,
