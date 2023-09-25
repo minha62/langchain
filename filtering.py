@@ -111,7 +111,7 @@ def Filtering(apikey, user_input):
 
     Example 1)
     user input:40,000원 이하 스프라이트 블랙 니트를 찾아줘
-    URL:https://www.musinsa.com/categories/item/001006?color=2&price1=0&price2=40000&includeKeywords=스
+    URL:https://www.musinsa.com/categories/item/001006?color=2&price1=0&price2=40000&includeKeywords=스트라이프
 
     Example 2)
     user input:3만원대 린넨 셔츠를 찾아줘

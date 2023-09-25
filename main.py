@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from filtering import Filtering
 from details import Details
+from product_list import ProductList
 from typing import Callable, Dict
 
 class Item(BaseModel):
@@ -25,9 +26,10 @@ app = FastAPI()
 @app.post("/items/")
 async def filtering_prompt(item: Item):
     url = Filtering(item.apikey, item.prompt)
-    return url
+    clothes = ProductList(url)
+    return clothes
 
-@app.post("/lang/details")
-async def details_prompt():
-    detail = Details()
-    return detail
+@app.post("/items/details")
+async def details_prompt(detail: Detail):
+    details = Details()
+    return details

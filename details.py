@@ -5,7 +5,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
-def Details(apikey, user_input):
+def Details(apikey, brand, name, score, orig_price, discount_price, cust_summary, size, delivery):
     os.environ['OPENAI_API_KEY'] = apikey
     llm = OpenAI(temperature=0.5)
 
