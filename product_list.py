@@ -8,7 +8,8 @@ def ProductList(filtering_url):
 
     soup = BeautifulSoup(html_content, 'html.parser')
 
-    list = soup.find_all('li', class_='li_box')
+    searchList = soup.find('ul', id='searchList')
+    list = searchList.find_all('li', class_='li_box')
 
     clothes = []
     for i in range(5):

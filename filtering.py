@@ -110,7 +110,7 @@ def Filtering(apikey, user_input):
       Ex4) 2년 = &sub_sort=2y
 
     Example 1)
-    user input:40,000원 이하 스프라이트 블랙 니트를 찾아줘
+    user input:40,000원 이하 스트라이프 블랙 니트를 찾아줘
     URL:https://www.musinsa.com/categories/item/001006?color=2&price1=0&price2=40000&includeKeywords=스트라이프
 
     Example 2)
