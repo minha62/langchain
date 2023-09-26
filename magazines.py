@@ -1,3 +1,5 @@
+import os
+
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
@@ -6,7 +8,8 @@ from langchain.memory import ConversationKGMemory
 from bs4 import BeautifulSoup
 import requests
 
-def Magazine(user_input):
+def Magazine(apikey, user_input):
+    os.environ['OPENAI_API_KEY'] = apikey
     llm = OpenAI(temperature=0.9)
 
     template = """You are the helpful agent that creates the filter that matches the user's input. You define the filters and choices in Typescript, and present the selected filters and choices as results using the given filter data.
