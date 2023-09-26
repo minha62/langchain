@@ -29,11 +29,8 @@ async def filtering_prompt(item: Item):
     url = Filtering(item.apikey, item.prompt)
     print(url)
     clothes = ProductList(url)
-    return clothes
-
-@app.post("/magazines/")
-async def magazine_prompt(item: Item):
-    return Magazine(item.apikey, item.prompt)
+    result, magazines = Magazine(item.apikey, item.prompt)
+    return clothes, {result, magazines}
 
 @app.post("/items/details")
 async def details_prompt(detail: Detail):

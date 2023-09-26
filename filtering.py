@@ -29,6 +29,7 @@ def Filtering(apikey, user_input):
       (
         "name": "상의 중분류",
         "choices": (
+          "001": "전체"
           "001002": "셔츠/블라우스",
           "001006": "니트/스웨터",
           "001010": "긴팔 티셔츠",
@@ -121,6 +122,10 @@ def Filtering(apikey, user_input):
     user input:4만원대 브라운 맨투맨 추천해줘. 4개월 동안 판매가 많은순으로 정렬해줘.
     URL:https://www.musinsa.com/categories/item/001005?color=4&price1=40000&price2=49999&sort=sale_high&sub_sort=4m
     
+    Example 4)
+    user input:키치한 옷 구경할래
+    URL:https://www.musinsa.com/categories/item/001?&includeKeywords=키치
+
     Relavant Information: 
     {history}
 
