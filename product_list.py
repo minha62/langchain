@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-import re
 
 def ProductList(filtering_url):
     url = filtering_url
@@ -21,15 +20,17 @@ def ProductList(filtering_url):
         url = element.find('a', class_='img-block').get('href')
         img = element.find('img', class_='lazyload lazy').get('data-original')
         #brand = element.find('p', class_='item_title').find('a').text
-        #title = element.find('p', class_='list_info').find('a').text.strip() if element.find('p', class_='list_info') else None
+        title = element.find('p', class_='list_info').find('a').text.strip() if element.find('p', class_='list_info') else None
 
-        #price = element.find('p', class_='price') if element.find('p', class_='price') else None
-        #orig_price = price.find('del').text.strip() if element.find('del') else None
-        #discounted_price = price.get_text(strip=True).replace(orig_price, '') if orig_price else price.text.strip()
+        price = element.find('p', class_='price') if element.find('p', class_='price') else None
+        orig_price = price.find('del').text.strip() if element.find('del') else None
+        discounted_price = price.get_text(strip=True).replace(orig_price, '') if orig_price else price.text.strip()
 
         info = {
             "no": num,
             "img": img,
+            "title": title,
+            "price": discounted_price,
             "url": url,
         }
         clothes.append(info)

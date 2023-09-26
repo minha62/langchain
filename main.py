@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from filtering import Filtering
 from details import Details
 from product_list import ProductList
+from magazines import Magazine
 from typing import Callable, Dict
 
 class Item(BaseModel):
@@ -28,6 +29,10 @@ async def filtering_prompt(item: Item):
     url = Filtering(item.apikey, item.prompt)
     clothes = ProductList(url)
     return clothes
+
+@app.post("/magazines/")
+async def magazine_prompt(item: Item):
+    return Magazine(item.apikey, item.prompt)
 
 @app.post("/items/details")
 async def details_prompt(detail: Detail):
