@@ -102,6 +102,7 @@ def Magazine(apikey, user_input):
         #print(f"Product URL: {mg_url}")
         #print("-" * 50)
 
+    result = True
     mg_clothes = []
     #step1 : Download the webpage
     for i in range(len(mg_urls)):
@@ -144,5 +145,8 @@ def Magazine(apikey, user_input):
             "url" : product_url,
         }
         mg_clothes.append(info)
+
+        if len(mg_clothes)==0:
+            result = False
         
-    return mg_clothes
+    return result, mg_clothes
