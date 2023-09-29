@@ -82,6 +82,7 @@ def Magazine(apikey, user_input):
 
     #step1 : Download the webpage
     url= mg_search_url
+    print(url)
     response = requests.get(url)
     html_content = response.text
 
