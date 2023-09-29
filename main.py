@@ -30,7 +30,7 @@ async def filtering_prompt(item: Item):
     print(url)
     clothes = ProductList(url)
     result, magazines = Magazine(item.apikey, item.prompt)
-    return clothes, {result, magazines}
+    return clothes, result, magazines
 
 @app.post("/items/details")
 async def details_prompt(detail: Detail):
