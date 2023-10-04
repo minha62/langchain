@@ -60,7 +60,6 @@ pyrsistent==0.19.3
 PySocks==1.7.1
 pytest==7.4.2
 pytest-base-url==2.0.0
-pytest-playwright==0.4.2
 python-dateutil==2.8.2
 python-decouple==3.8
 python-slugify==8.0.1
