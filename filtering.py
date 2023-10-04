@@ -9,7 +9,7 @@ from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
 def Filtering(user_input):
-    os.environ['OPENAI_API_KEY'] = apikey
+    os.environ['OPENAI_API_KEY']
     llm = OpenAI(temperature=0.5)
 
     template = """You are the helpful shopping agent that creates the filter that matches the user's input. You define the filters and choices in Typescript, and present the selected filters and choices as results using the given filter data.

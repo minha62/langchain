@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import requests
 
 def Magazine(user_input):
-    os.environ['OPENAI_API_KEY'] = apikey
+    os.environ['OPENAI_API_KEY']
     llm = OpenAI(temperature=0.9)
 
     template = """You are the helpful agent that creates url that matches the user's input.
