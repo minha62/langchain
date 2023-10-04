@@ -18,6 +18,8 @@ def Magazine(apikey, user_input):
     If there is something related to shopping keywords, you have to add "?q=" and the component like this.
     You don't have to care about categories of clothes like bags, tops, skirts, jeans and so on.
 
+    Do not add another filter or component like sorting, price and so on.
+
     Example 1)
     user input: 키치한 옷 찾아줘
     URL: https://www.musinsa.com/search/musinsa/magazine?q=키치
