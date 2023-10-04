@@ -117,9 +117,8 @@ def Magazine(apikey, user_input):
                 "url" : product_url,
             }
             mg_clothes.append(info)
-            print(info)
 
-            if len(mg_clothes)==0:
-                result = False
+    if len(mg_clothes)==0:
+        result = False
             
     return result, mg_clothes
