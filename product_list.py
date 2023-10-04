@@ -38,4 +38,4 @@ def ProductList(filtering_url):
         clothes.append(info)
     if len(clothes) == 0:
         result = False
-    return {"filtering": {"result:": result, "clothes": clothes}}
+    return {"result:": result, "clothes": clothes}

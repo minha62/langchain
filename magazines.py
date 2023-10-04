@@ -121,4 +121,4 @@ def Magazine(apikey, user_input):
     if len(mg_clothes)==0:
         result = False
             
-    return {"magazines": {"result:": result, "clothes": mg_clothes}}
+    return {"result:": result, "clothes": mg_clothes}
