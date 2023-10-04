@@ -56,7 +56,7 @@ def Magazine(apikey, user_input):
         memory=memory
     )
 
-    mg_search_url = conversation_with_kg.predict(input='y2k 패션 추천해줘')
+    mg_search_url = conversation_with_kg.predict(input=user_input)
 
     #step1 : Download the webpage
     url= mg_search_url
