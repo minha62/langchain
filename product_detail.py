@@ -1,7 +1,4 @@
-import subprocess
 from playwright.async_api import async_playwright
-
-subprocess.run(["playwright", "install"])
 
 async def ProductDetails(url):
     async def reviewObject(page, reviewElement):
