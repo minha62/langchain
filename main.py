@@ -28,9 +28,7 @@ app = FastAPI()
 async def filtering_prompt(item: Item):
     url = Filtering(item.apikey, item.prompt)
     print(url)
-    clothes = ProductList(url)
-    result, magazines = Magazine(item.apikey, item.prompt)
-    return clothes, result, magazines
+    return ProductList(url), Magazine(item.apikey, item.prompt)
 
 @app.post("/items/details")
 async def details_prompt(detail: Detail):

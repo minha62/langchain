@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 def ProductList(filtering_url):
+    result = True
     url = filtering_url
     response = requests.get(url)
     html_content = response.text
@@ -35,5 +36,6 @@ def ProductList(filtering_url):
             "url": 'https:' + url,
         }
         clothes.append(info)
-
-    return clothes
+    if len(clothes) == 0:
+        result = False
+    return {"filtering": {"result:": result, "clothes": clothes}}
