@@ -5,8 +5,6 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
-from apikey import apikey
-
 from bs4 import BeautifulSoup
 import requests
 
