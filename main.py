@@ -25,6 +25,6 @@ async def filtering_prompt(item: Item):
     return json
 
 @app.post("/items/details")
-async def details_prompt(item: Item):
+async def details_prompt(item: Url):
     simple_detail = SimpleDetail(item.productUrl)
     return simple_detail
