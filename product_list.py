@@ -32,7 +32,7 @@ def ProductList(filtering_url):
             "img": img,
             "title": title,
             "price": discounted_price,
-            "url": url,
+            "url": 'https:' + url,
         }
         clothes.append(info)
 
