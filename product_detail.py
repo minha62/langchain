@@ -1,6 +1,6 @@
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
 
-def ProductDetails(url):
+async def ProductDetails(url):
     def reviewObject(page, reviewElement):
         reviews = []
         for re in reviewElement:
@@ -34,12 +34,12 @@ def ProductDetails(url):
             reviews.append(review)
         return reviews
 
-    with sync_playwright() as pw:
+    async with async_playwright() as pw:
         browser = pw.chromium.launch(headless=False)
-        context = browser.new_context()
-        page = context.new_page()
+        #context = browser.new_context()
+        page = browser.new_page()
 
-        page.goto(url)
+        await page.goto(url)
 
         contents = page.query_selector("#product_order_info")
 
