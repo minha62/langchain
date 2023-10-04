@@ -2,24 +2,15 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from filtering import Filtering
-from details import Details
 from product_list import ProductList
+from simple_detail import SimpleDetail
 from magazines import Magazine
-from typing import Callable, Dict
 
 class Item(BaseModel):
     userNeed: str
 
-class Detail(BaseModel):
-    brand: str
-    name: str
-    score: float
-    oirg_price: str
-    discount_price: str
-    cust_summary: Callable[[str, str], str]
-    size: Dict[str, float]
-    delivery: str
-    
+class Url(BaseModel):
+    productUrl: str
 
 app = FastAPI()
 
@@ -34,6 +25,6 @@ async def filtering_prompt(item: Item):
     return json
 
 @app.post("/items/details")
-async def details_prompt(detail: Detail):
-    details = Details()
-    return details
+async def details_prompt(item: Item):
+    simple_detail = SimpleDetail(item.productUrl)
+    return simple_detail
