@@ -5,10 +5,12 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
+from apikey import apikey
+
 from bs4 import BeautifulSoup
 import requests
 
-def Magazine(apikey, user_input):
+def Magazine(user_input):
     os.environ['OPENAI_API_KEY'] = apikey
     llm = OpenAI(temperature=0.9)
 

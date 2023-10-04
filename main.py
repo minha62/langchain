@@ -8,8 +8,7 @@ from magazines import Magazine
 from typing import Callable, Dict
 
 class Item(BaseModel):
-    apikey: str
-    prompt: str
+    userNeed: str
 
 class Detail(BaseModel):
     brand: str
@@ -26,12 +25,12 @@ app = FastAPI()
 
 @app.post("/items/")
 async def filtering_prompt(item: Item):
-    url = Filtering(item.apikey, item.prompt)
+    url = Filtering(item.userNeed)
     print(url)
 
     json = {}
     json["filtering"] = ProductList(url)
-    json["magazines"] = Magazine(item.apikey, item.prompt)
+    json["magazines"] = Magazine(item.userNeed)
     return json
 
 @app.post("/items/details")
