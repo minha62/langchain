@@ -7,8 +7,8 @@ from langchain.memory import ConversationKGMemory
 
 from product_detail import ProductDetails
 
-def SimpleDetail(url):
-    details = ProductDetails(url)
+async def SimpleDetail(url):
+    details = await ProductDetails(url)
     delivery = details["details"]["delivery"]
     size = str(details["size"]["size_info"])
     review = str(details["up_reviews"][0])

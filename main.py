@@ -5,6 +5,7 @@ from filtering import Filtering
 from product_list import ProductList
 from simple_detail import SimpleDetail
 from magazines import Magazine
+import asyncio
 
 class Item(BaseModel):
     userNeed: str
@@ -26,5 +27,5 @@ async def filtering_prompt(item: Item):
 
 @app.post("/items/details")
 async def details_prompt(item: Url):
-    simple_detail = SimpleDetail(item.productUrl)
+    simple_detail = asyncio.run(SimpleDetail(item.productUrl))
     return simple_detail
