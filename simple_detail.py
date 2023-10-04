@@ -1,5 +1,4 @@
 import os
-from apikey import apikey
 
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
@@ -15,7 +14,7 @@ def SimpleDetail(url):
     review = str(details["up_reviews"][0])
     input = delivery + size + review
 
-    os.environ['OPENAI_API_KEY'] = apikey
+    os.environ['OPENAI_API_KEY']
 
     llm = OpenAI(temperature=0.9)
 
