@@ -11,7 +11,8 @@ def SimpleDetail(url):
     details = ProductDetails(url)
     delivery = details["details"]["delivery"]
     size = str(details["size"]["size_info"])
-    review = str(details["up_reviews"][0])
+    #review = str(details["up_reviews"][0])
+    review = str(details["worst_revies"][0])
     input = delivery + size + review
 
     os.environ['OPENAI_API_KEY']
