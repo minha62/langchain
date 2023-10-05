@@ -100,6 +100,9 @@ def Magazine(user_input):
             # Get image URL
             img_url = unit.find('img').get('data-src')
 
+            # Get product brand
+            product_brand = unit.find('a', class_='brand').get_text()
+
             info = unit.find('a', class_='name')
 
             # Get product name
@@ -113,9 +116,10 @@ def Magazine(user_input):
 
             info = {
                 "no": goods_no,
-                "img": img_url,
-                "title": product_name,
+                "name": product_name,
+                "brand": product_brand,
                 "price" : price,
+                "img": img_url,
                 "url" : product_url,
             }
             mg_clothes.append(info)
