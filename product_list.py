@@ -21,7 +21,7 @@ def ProductList(filtering_url):
 
         url = element.find('a', class_='img-block').get('href')
         img = element.find('img', class_='lazyload lazy').get('data-original')
-        #brand = element.find('p', class_='item_title').find('a').text
+        brand = element.find('p', class_='item_title').find('a').text
         title = element.find('p', class_='list_info').find('a').text.strip() if element.find('p', class_='list_info') else None
 
         price = element.find('p', class_='price') if element.find('p', class_='price') else None
@@ -30,9 +30,10 @@ def ProductList(filtering_url):
 
         info = {
             "no": num,
-            "img": img,
-            "title": title,
+            "name": title,
+            "brand": brand,
             "price": discounted_price,
+            "img": img,
             "url": 'https:' + url,
         }
         clothes.append(info)
