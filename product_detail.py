@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-#from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service
 #from selenium.webdriver.chrome.options import Options
 #from webdriver_manager.chrome import ChromeDriverManager
 import time
@@ -49,8 +49,10 @@ def ProductDetails(url):
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--no-sandbox')
 
+    service = Service(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
+
     #driver = webdriver.Chrome(service= Service(ChromeDriverManager().install()), options=options) # local
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options) # for heroku
+    driver = webdriver.Chrome(service=service, options=options) # for heroku
     driver.get(url)
 
     # 상품 정보 가져오기
