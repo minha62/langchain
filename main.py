@@ -5,6 +5,7 @@ from filtering import Filtering
 from product_list import ProductList
 from simple_detail import SimpleDetail
 from magazines import Magazine
+from mg_product import MgProducts
 
 class Item(BaseModel):
     userNeed: str
@@ -19,9 +20,11 @@ async def filtering_prompt(item: Item):
     url = Filtering(item.userNeed)
     print(url)
 
+    mg_url = Magazine(item.userNeed)
+
     json = {}
     json["filtering"] = ProductList(url)
-    json["magazines"] = Magazine(item.userNeed)
+    json["magazines"] = MgProducts(mg_url)
     return json
 
 @app.post("/items/details")
