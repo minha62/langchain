@@ -1,100 +1,105 @@
-import subprocess
-from playwright.async_api import async_playwright
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+import os
 
-#subprocess.run(["playwright", "install"])
-#subprocess.run(["runas", "/user:Administrator", "playwright", "install-deps"])
-
-async def ProductDetails(url):
-    async def reviewObject(page, reviewElement):
+def ProductDetails(url):
+    def reviewObject(reviewElements):
         reviews = []
-        for re in reviewElement:
+        for re in reviewElements:
             review = {}
 
-            profile_element = await re.query_selector("p.review-profile__body_information")
-            if profile_element:
-                review["profile"] = await profile_element.inner_text()
-            else:
+            try:
+                profile_element = re.find_element(By.CSS_SELECTOR, 'p.review-profile__body_information')
+                review["profile"] = profile_element.text
+            except:
                 review["profile"] = "None"
-            
-            size_element = await re.query_selector("span.review-goods-information__option")
-            if size_element:
-                review["size"] = await size_element.inner_text()
-            else:
+
+            try:
+                size_element = re.find_element(By.CSS_SELECTOR, 'span.review-goods-information__option')
+                review["size"] = size_element.text
+            except:
                 review["size"] = "None"
 
-            score = await re.query_selector("span.review-list__rating__active")
-            if score:
-                score_percent = await page.evaluate('(element) => element.style.width', score)
+            try:
+                score = re.find_element(By.CSS_SELECTOR, 'span.review-list__rating__active')
+                score_percent = score.get_attribute('style').split('width:')[1].split('%')[0].strip()
                 review["score"] = score_percent
-            else:
+            except:
                 review["score"] = "None"
-            
-            content_element = await re.query_selector("div.review-contents__text")
-            if content_element:
-                review["content"] = await content_element.inner_text()
-            else:
+
+            try:
+                content_element = re.find_element(By.CSS_SELECTOR, 'div.review-contents__text')
+                review["content"] = content_element.text
+            except:
                 review["content"] = "None"
 
             reviews.append(review)
+
         return reviews
 
-    async with async_playwright() as pw:
-        browser = await pw.chromium.launch(headless=False)
-        #context = browser.new_context()
-        page = await browser.new_page()
+    # Chrome 옵션 설정
+    options = Options()
+    options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") # for heroku
+    options.add_argument('--headless')  # 브라우저 창 숨기기
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--no-sandbox')
 
-        await page.goto(url)
+    #driver = webdriver.Chrome(service= Service(ChromeDriverManager().install()), options=options) # local
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options) # for heroku
+    driver.get(url)
 
-        contents = await page.query_selector("#product_order_info")
+    # 상품 정보 가져오기
+    product_info = driver.find_element(By.CSS_SELECTOR, 'ul.product_article').text.replace('\n', '')
 
-        # 상품 정보
-        product_info = await contents.query_selector("ul.product_article").inner_text()
-        product_info = product_info.replace('\n', '')
+    # 많이 구매한 고객의 연령대, 성별 가져오기
+    popular = driver.find_element(By.CSS_SELECTOR, '#graph_summary_area').text
 
-        # 많이 구매한 고객의 연령대, 성별
-        popular = await contents.query_selector("#graph_summary_area").inner_text()
+    # 도착 예정일 가져오기
+    delivery = driver.find_element(By.CSS_SELECTOR, 'div.CArrivalInformation__text').text
 
-        # 도착 예정일
-        delivery = await contents.query_selector("div.CArrivalInformation__text").inner_text()
-        #formatted_delivery = f"도착 예정 날짜: {delivery}"
+    # 가격 가져오기
+    price = driver.find_element(By.CSS_SELECTOR, '#list_price').text
 
-        # 가격
-        price = await contents.query_selector("#list_price").inner_text()
+    # 사이즈 추천 30개 가져오기
+    size_reco = []
+    size_reco_elements = driver.find_elements(By.CSS_SELECTOR, 'p.size_content')
+    for content in size_reco_elements[:30]:
+        size_reco.append(content.text)
 
-        # 사이즈 추천 30개
-        size_reco = []
-        size_reco_elements = await contents.query_selector_all("p.size_content")
-        for content in size_reco_elements[:30]:
-            size_reco.append(await content.inner_text())
+    # 사이즈 정보 가져오기
+    size_info = driver.find_element(By.CSS_SELECTOR, '#size_table')
+    driver.execute_script("arguments[0].querySelector('#mysize').remove();", size_info)
+    size_info = size_info.text
 
+    # 유용한 순 리뷰 10개 가져오기
+    up_reviews_10 = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[:10]
+    up_reviews = reviewObject(up_reviews_10)
 
-        # 사이즈 정보
-        size_info = await page.query_selector("#size_table")
-        await page.evaluate('(element) => element.querySelector("#mysize").remove()', size_info)
-        size_info = await size_info.inner_text()
+    # 평점 낮은 순 리뷰 10개 가져오기
+    driver.find_element(By.CSS_SELECTOR, '#reviewSelectSort').click()
+    time.sleep(2)  # 페이지 업데이트를 기다립니다.
+    worst_reviews_10 = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[:10]
+    worst_reviews = reviewObject(worst_reviews_10)
 
-        # 유용한 순 리뷰 10개
-        up_reviews_10 = await page.query_selector_all("div.review-list")[:10]
-        up_reviews = await reviewObject(page, up_reviews_10)
-
-        # 평점 낮은 순 리뷰 10개
-        await page.select_option("#reviewSelectSort", "goods_est_asc")
-        worst_reviews_10 = await page.query_selector_all("div.review-list")[:10]
-        worst_reviews = await reviewObject(page, worst_reviews_10)
-
-        await browser.close()
-
-        return {
+    return {
             "details": {
                 "product_info": product_info,
                 "popular": popular,
                 "delivery": delivery,
                 "price": price,
             },
-            "size" : {
+            "size": {
                 "size_reco": size_reco,
                 "size_info": size_info,
             },
             "up_reviews": up_reviews,
             "worst_reviews": worst_reviews,
         }
+
+# url = 'https://www.musinsa.com/app/goods/3056893'
+# result = ProductDetails(url)
+# print(result)

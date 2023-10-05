@@ -7,14 +7,15 @@ from langchain.memory import ConversationKGMemory
 
 from product_detail import ProductDetails
 
-async def SimpleDetail(url):
-    details = await ProductDetails(url)
+def SimpleDetail(url):
+    details = ProductDetails(url)
     delivery = details["details"]["delivery"]
     size = str(details["size"]["size_info"])
     review = str(details["up_reviews"][0])
     input = delivery + size + review
 
     os.environ['OPENAI_API_KEY']
+    #os.environ.get('OPENAI_API_KEY')
 
     llm = OpenAI(temperature=0.9)
 

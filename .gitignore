@@ -1,4 +1,5 @@
 __pycache__
+.env
 lang
 langchain
 apikey.py
@@ -15,3 +16,4 @@ de.py
 productInfo.html
 test.txt
 sele.py
+product_detail_playwright.py
