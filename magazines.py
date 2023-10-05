@@ -97,9 +97,6 @@ def Magazine(user_input):
             # Get goods number
             goods_no = unit.get('goods_no')
 
-            # Get image URL
-            img_url = unit.find('img').get('data-src')
-
             # Get product brand
             product_brand = unit.find('a', class_='brand').get_text()
 
@@ -110,6 +107,10 @@ def Magazine(user_input):
 
             # Get product URL
             product_url = info.get('href')
+
+            # Get image URL
+            #img_url = unit.find('img').get('data-src')
+            img_url = get_imgUrl(product_url)
 
             # Get product price
             price = unit.find('span', class_='price').get_text()
@@ -126,5 +127,13 @@ def Magazine(user_input):
 
     if len(mg_clothes)==0:
         result = False
-            
+
+    def get_imgUrl(url):
+        response = requests.get(url)
+        html_content = response.text
+
+        soup = BeautifulSoup(html_content, 'html.parser')
+        img_url = 'https:' + soup.find('img', class_='plus_cursor').get('src')
+        return img_url
+
     return {"result": result, "clothes": mg_clothes}
