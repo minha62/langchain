@@ -9,6 +9,18 @@ from bs4 import BeautifulSoup
 import requests
 
 def Magazine(user_input):
+    # def get_imgUrl(url):
+    #     response = requests.get(url)
+    #     html_content = response.text
+
+    #     soup = BeautifulSoup(html_content, 'html.parser')
+
+    #     print(soup)
+    #     element = soup.find('meta', attrs={'property': 'og:image'})
+    #     print(element)
+    #     img_url = element['content']
+    #     return img_url
+
     os.environ['OPENAI_API_KEY']
     llm = OpenAI(temperature=0.9)
 
@@ -72,7 +84,7 @@ def Magazine(user_input):
     mg_list = soup.find_all('li', class_='listItem')
     mg_urls = []
     # Limit the loop to the first 5 items
-    for unit in mg_list[:5]:
+    for unit in mg_list[5:10]:
         # Get product URL
         mg_url = unit.find('div', class_='articleInfo').a.get('href')
         mg_urls.append(mg_url)
@@ -109,8 +121,8 @@ def Magazine(user_input):
             product_url = info.get('href')
 
             # Get image URL
-            #img_url = unit.find('img').get('data-src')
-            img_url = get_imgUrl(product_url)
+            img_url = unit.find('img').get('data-src')
+            # img_url = get_imgUrl(product_url)
 
             # Get product price
             price = unit.find('span', class_='price').get_text()
@@ -127,13 +139,5 @@ def Magazine(user_input):
 
     if len(mg_clothes)==0:
         result = False
-
-    def get_imgUrl(url):
-        response = requests.get(url)
-        html_content = response.text
-
-        soup = BeautifulSoup(html_content, 'html.parser')
-        img_url = 'https:' + soup.find('img', class_='plus_cursor').get('src')
-        return img_url
 
     return {"result": result, "clothes": mg_clothes}
