@@ -123,4 +123,4 @@ def Magazine(user_input):
     if len(mg_clothes)==0:
         result = False
             
-    return {"result:": result, "clothes": mg_clothes}
+    return {"result": result, "clothes": mg_clothes}
