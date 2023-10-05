@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+#from selenium.webdriver.chrome.service import Service
+#from selenium.webdriver.chrome.options import Options
+#from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
 
@@ -42,14 +42,15 @@ def ProductDetails(url):
         return reviews
 
     # Chrome 옵션 설정
-    options = Options()
+    #options = Options()
+    options = webdriver.ChromeOptions()
     options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") # for heroku
     options.add_argument('--headless')  # 브라우저 창 숨기기
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--no-sandbox')
 
     #driver = webdriver.Chrome(service= Service(ChromeDriverManager().install()), options=options) # local
-    driver = webdriver.Chrome(os.environ.get("CHROMEDRIVER_PATH"), options=options) # for heroku
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options) # for heroku
     driver.get(url)
 
     # 상품 정보 가져오기
