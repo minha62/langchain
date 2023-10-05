@@ -49,7 +49,7 @@ def ProductDetails(url):
     options.add_argument('--no-sandbox')
 
     #driver = webdriver.Chrome(service= Service(ChromeDriverManager().install()), options=options) # local
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options) # for heroku
+    driver = webdriver.Chrome(os.environ.get("CHROMEDRIVER_PATH"), options=options) # for heroku
     driver.get(url)
 
     # 상품 정보 가져오기
