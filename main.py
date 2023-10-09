@@ -29,14 +29,14 @@ async def filtering_prompt(item: Item):
 
     return filtering_url, mg_url
 
-@app.post("/items/list")
+@app.post("/items/ftList")
 async def prodcut_list(item: Url):
     json = {}
     json["filtering"] = ProductList(item.productUrl)
     #json["magazines"] = MgProducts(item.magazineUrl)
     return json
 
-@app.post("/items/list")
+@app.post("/items/mgList")
 async def prodcut_list(item: Url):
     json = {}
     #json["filtering"] = ProductList(item.filteringUrl)
