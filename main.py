@@ -33,7 +33,7 @@ async def filtering_prompt(item: Item):
 async def prodcut_list(item: listUrl):
     json = {}
     json["filtering"] = ProductList(item.filteringUrl)
-    json["magazines"] = MgProducts(item.magazineUrl)
+    #json["magazines"] = MgProducts(item.magazineUrl)
     return json
 
 

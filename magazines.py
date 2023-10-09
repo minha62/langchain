@@ -31,4 +31,4 @@ def Magazine(user_input):
         memory=memory
     )
 
-    return conversation_with_kg.predict(input=user_input)
+    return conversation_with_kg.predict(input=user_input).replace('"', '')

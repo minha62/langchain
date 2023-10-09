@@ -13,7 +13,7 @@ def ProductList(filtering_url):
     list = searchList.find_all('li', class_='li_box')
 
     clothes = []
-    for i in range(21):
+    for i in range(30):
         cl = list[i]
         num = cl.get('data-no')
 
