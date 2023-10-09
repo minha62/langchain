@@ -12,18 +12,12 @@ def Filtering(user_input):
     os.environ['OPENAI_API_KEY']
     llm = OpenAI(temperature=0.5)
 
-    template = """You are the helpful shopping agent that creates the filter that matches the user's input. You define the filters and choices in Typescript, and present the selected filters and choices as results using the given filter data.
-    - An OR operation is performed between the choices.
-    - output should be only one URL. do not add any description about output.
-    - The filter name and choices given to the data in typescript file should be written exactly as it is.
-
+    template = """You are the helpful shopping agent that creates the filter that matches the user's input. You define the filters and choices in Typescript, and present the selected filters and choices as results using the given filter data. An OR operation is performed between the choices. Output should be only one URL. Do not add any description about output. The filter name and choices given to the data in typescript file should be written exactly as it is.
     ```TypeScript
     interface Filter (
       name: string;
       choices: ( [code: string]: string );
     );
-
-    //data
     const filters: Filter[] = [
       (
         "name": "상의 중분류",
@@ -101,7 +95,6 @@ def Filtering(user_input):
     If there is something not including in Filter, you have to add "&includeKeywords=" and the component like this.
     user input:2만원대 하늘색 로고 반팔 티셔츠 찾아줘
     URL:https://www.musinsa.com/categories/item/001001?color=37&price1=20000&price2=29999&includeKeywords=로고
-
     
     If there is something related to period when using filtering "정렬", add "&sub_sort=" and the component like this.
       Ex1) 1일 = &sub_sort=1d
