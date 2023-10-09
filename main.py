@@ -10,6 +10,10 @@ from mg_product import MgProducts
 class Item(BaseModel):
     userNeed: str
 
+class listUrl(BaseModel):
+    filteringUrl: str
+    magazineUrl: str
+
 class Url(BaseModel):
     productUrl: str
 
@@ -17,15 +21,21 @@ app = FastAPI()
 
 @app.post("/items/")
 async def filtering_prompt(item: Item):
-    url = Filtering(item.userNeed)
-    print(url)
+    filtering_url = Filtering(item.userNeed)
+    print(filtering_url)
 
     mg_url = Magazine(item.userNeed)
+    print(mg_url)
 
+    return filtering_url, mg_url
+
+@app.post("/items/list")
+async def prodcut_list(item: listUrl):
     json = {}
-    json["filtering"] = ProductList(url)
-    json["magazines"] = MgProducts(mg_url)
+    json["filtering"] = ProductList(item.filteringUrl)
+    json["magazines"] = MgProducts(item.magazineUrl)
     return json
+
 
 @app.post("/items/details")
 async def details_prompt(item: Url):
