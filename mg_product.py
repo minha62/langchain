@@ -14,8 +14,8 @@ def MgProducts(mg_search_url):
 
     mg_list = soup.find_all('li', class_='listItem')
     mg_urls = []
-    # Limit the loop to the first 30 items
-    for unit in mg_list[:30]:
+    # Limit the loop to the first 21 items
+    for unit in mg_list[:21]:
         # Get product URL
         mg_url = unit.find('div', class_='articleInfo').a.get('href')
         mg_urls.append(mg_url)
