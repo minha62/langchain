@@ -1,6 +1,4 @@
 # https://python.langchain.com/en/latest/modules/memory/types/kg.html
-
-# Bring in deps
 import os
 
 from langchain.llms import OpenAI
@@ -8,8 +6,8 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
-def Filtering(user_input):
-    os.environ['OPENAI_API_KEY']
+def Filtering(apikey, user_input):
+    os.environ['OPENAI_API_KEY'] = apikey
     llm = OpenAI(temperature=0.5)
 
     template = """You are the helpful shopping agent that creates the filter that matches the user's input. You define the filters and choices in Typescript, and present the selected filters and choices as results using the given filter data. An OR operation is performed between the choices. Output should be only one URL. Do not add any description about output. The filter name and choices given to the data in typescript file should be written exactly as it is.

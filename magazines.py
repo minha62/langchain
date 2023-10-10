@@ -5,8 +5,9 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
 
-def Magazine(user_input):
-    os.environ.get('OPENAI_API_KEY')
+def Magazine(apikey, user_input):
+    #os.environ.get('OPENAI_API_KEY')
+    os.environ['OPENAI_API_KEY'] = apikey
     llm = OpenAI(temperature=0.9)
 
     template = """You are the helpful agent that creates url that matches the user's input. output should be only one URL. do not add any description about output. If there is something related to shopping keywords, you have to add "?q=" and the component like this. You don't have to care about categories of clothes like bags, tops, skirts, jeans and so on. Do not add another filter or component like sorting, price and so on.
