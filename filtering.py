@@ -141,4 +141,4 @@ def Filtering(user_input):
         memory=memory
     )
 
-    return conversation_with_kg.predict(input=user_input).replace('"', '')
+    return conversation_with_kg.predict(input=user_input).strip()

@@ -39,4 +39,4 @@ def SimpleDetail(url):
         memory=memory
     )
 
-    return conversation_with_kg.predict(input=input)
+    return conversation_with_kg.predict(input=input).strip()

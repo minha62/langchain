@@ -11,9 +11,10 @@ def ProductList(filtering_url):
 
     searchList = soup.find('ul', id='searchList')
     list = searchList.find_all('li', class_='li_box')
+    # print(len(list)) # 90개
 
     clothes = []
-    for i in range(30):
+    for i in range(60):
         cl = list[i]
         num = cl.get('data-no')
 
