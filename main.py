@@ -32,7 +32,7 @@ async def search(item: Item):
 
     mg_url = Magazine(item.apikey, item.userNeed)
     print(mg_url)
-    return filtering_url, mg_url
+    return {"filteringUrl": filtering_url, "magazineUrl": mg_url}
 
 @app.post("/items/ftList")
 async def prodcut_list(item: Url):

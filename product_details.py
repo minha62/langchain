@@ -7,9 +7,7 @@ from langchain.memory import ConversationKGMemory
 
 from product_element import ProductElements
 
-def gpt(apikey, input, template):
-    os.environ['OPENAI_API_KEY'] = apikey
-
+def gpt(input, template):
     llm = OpenAI(temperature=0.9)
 
     prompt = PromptTemplate(
@@ -29,6 +27,7 @@ def gpt(apikey, input, template):
     return conversation_with_kg.predict(input=input).strip()
 
 def Details(apikey, url):
+    os.environ['OPENAI_API_KEY'] = apikey
     details = ProductElements(url)
     delivery = details["details"]["delivery"]
     size_info = str(details["size"]["size_info"])
