@@ -18,6 +18,10 @@ class listUrl(BaseModel):
 class Url(BaseModel):
     productUrl: str
 
+class Detail(BaseModel):
+    apikey: str
+    productUrl: str
+
 app = FastAPI()
 
 # 상태 변수를 추가하고 초기값을 설정
@@ -50,7 +54,10 @@ async def magazine_list(item: Url):
 
 
 @app.post("/items/details")
-async def product_details(item: Url):
-    apikey = app.state.apikey
-    details = Details(apikey, item.productUrl)
+async def product_details(item: Detail):
+    # if app.state.apikey:
+    #     apikey = app.state.apikey
+    # else: apikey = "None"
+    
+    details = Details(item.apikey, item.productUrl)
     return details
