@@ -75,6 +75,6 @@ def Details(apikey, url):
             }
         }
 
-from apikey import apikey
-url = 'https://www.musinsa.com/app/goods/3056893'
-print(Details(apikey, url))
+# from apikey import apikey
+# url = 'https://www.musinsa.com/app/goods/3056893'
+# print(Details(apikey, url))
