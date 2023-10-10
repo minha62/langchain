@@ -15,7 +15,7 @@ def MgProducts(mg_search_url):
     mg_list = soup.find_all('li', class_='listItem')
     mg_urls = []
     # Limit the loop to the first 6 items
-    for unit in mg_list[:6]:
+    for unit in mg_list[:10]:
         # Get product URL
         mg_url = unit.find('div', class_='articleInfo').a.get('href')
         mg_urls.append(mg_url)
@@ -34,7 +34,7 @@ def MgProducts(mg_search_url):
         #step3 : 관련상품 url 가져오기
         goods_units = soup.find_all('li', class_='goods-unit')
 
-        if goods_units:  # Check if the list is not empty
+        if goods_units and len(mg_clothes) < 7:  # Check if the list is not empty
             unit = goods_units[0]  # Get the first product
 
             # Get goods number
