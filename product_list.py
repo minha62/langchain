@@ -14,7 +14,7 @@ def ProductList(filtering_url):
     # print(len(list)) # 90개
 
     clothes = []
-    for i in range(60):
+    for i in range(30):
         cl = list[i]
         num = cl.get('data-no')
 
