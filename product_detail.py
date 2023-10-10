@@ -70,8 +70,11 @@ def ProductDetails(url):
     # 사이즈 추천 30개 가져오기
     size_reco = []
     size_reco_elements = driver.find_elements(By.CSS_SELECTOR, 'p.size_content')
-    for content in size_reco_elements[:30]:
-        size_reco.append(content.text)
+    if size_reco_elements:
+        for content in size_reco_elements[:30]:
+            size_reco.append(content.text)
+    else:
+        size_reco = None
 
     # 사이즈 정보 가져오기
     size_info = driver.find_element(By.CSS_SELECTOR, '#size_table')
@@ -80,13 +83,19 @@ def ProductDetails(url):
 
     # 유용한 순 리뷰 10개 가져오기
     up_reviews_10 = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[:10]
-    up_reviews = reviewObject(up_reviews_10)
+    if up_reviews_10:
+        up_reviews = reviewObject(up_reviews_10)
+    else:
+        up_reviews = None
 
     # 평점 낮은 순 리뷰 10개 가져오기
     driver.find_element(By.CSS_SELECTOR, '#reviewSelectSort').click()
     time.sleep(2)  # 페이지 업데이트를 기다립니다.
     worst_reviews_10 = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[:10]
-    worst_reviews = reviewObject(worst_reviews_10)
+    if worst_reviews_10:
+        worst_reviews = reviewObject(worst_reviews_10)
+    else:
+        worst_reviews = None
 
     return {
             "details": {
