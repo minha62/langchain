@@ -27,7 +27,11 @@ async def filtering_prompt(item: Item):
     mg_url = Magazine(item.userNeed)
     print(mg_url)
 
-    return filtering_url, mg_url
+    json = {}
+    json["filtering"] = ProductList(filtering_url)
+    json["magazines"] = MgProducts(mg_url)
+    return json
+    #return filtering_url, mg_url
 
 @app.post("/items/ftList")
 async def prodcut_list(item: Url):
