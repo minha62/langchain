@@ -18,4 +18,5 @@ test.txt
 sele.py
 product_detail_playwright.py
 product_detail_test.py
-size_reco.py
+product_details_all.py
+product_element_all.py

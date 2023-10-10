@@ -3,9 +3,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from filtering import Filtering
 from product_list import ProductList
-from product_details import Details
 from magazines import Magazine
 from mg_product import MgProducts
+# from product_details_all import Details
+from simple_detail import SimpleDetail
+from size_reco import SizeReco
+from review_summ import ReviewSumm
 
 class Item(BaseModel):
     apikey: str
@@ -24,13 +27,8 @@ class Detail(BaseModel):
 
 app = FastAPI()
 
-# 상태 변수를 추가하고 초기값을 설정
-app.state.apikey = None
-
 @app.post("/items/")
 async def search(item: Item):
-    app.state.apikey = item.apikey
-
     filtering_url = Filtering(item.apikey, item.userNeed)
     print(filtering_url)
 
@@ -54,10 +52,14 @@ async def magazine_list(item: Url):
 
 
 @app.post("/items/details")
-async def product_details(item: Detail):
-    # if app.state.apikey:
-    #     apikey = app.state.apikey
-    # else: apikey = "None"
-    
-    details = Details(item.apikey, item.productUrl)
-    return details
+async def simple_detail(item: Detail):
+    # details = Details(item.apikey, item.productUrl) # simple_detail + size_reco + review_summ 한번에 => timeout error
+    return SimpleDetail(item.apikey, item.productUrl)
+
+@app.post("/items/details/size")
+async def size_reco(item: Detail):
+    return SizeReco(item.apikey, item.productUrl)
+
+@app.post("/items/details/review")
+async def review_summ(item: Detail):
+    return ReviewSumm(item.apikey, item.productUrl)
