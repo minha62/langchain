@@ -47,7 +47,7 @@ def Details(apikey, url):
     If review is None, the result should be like this: Example)사이즈 옵션은 총 1가지로 ONE이 있습니다. 상품은 10/10(화) 도착 예정입니다. 아직 리뷰가 없습니다.
     Relevant information:{history} input contents:{input} result:"""
 
-    simple_detail = gpt(apikey, input, simple_detail_template)
+    simple_detail = gpt(input, simple_detail_template)
 
     if size_reco:
         size_reco_template = """You are the helpful agent that recommends height and weight per size options from input size contents. Calculate average range of heights and weights per sizes and sex. If there is no data in one size option, don't print height and weight but "데이터 없음".
@@ -66,7 +66,7 @@ def Details(apikey, url):
     else:
         reviewSum = "리뷰가 존재하지 않습니다."
 
-    return {
+    return { 
             "details": {
                 "simple_detail": simple_detail,
                 "size_reco": sizeReco,
