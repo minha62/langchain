@@ -34,7 +34,7 @@ def MgProducts(mg_search_url):
         #step3 : 관련상품 url 가져오기
         goods_units = soup.find_all('li', class_='goods-unit')
 
-        if goods_units and len(mg_clothes) < 9:  # Check if the list is not empty
+        if goods_units and len(mg_clothes) < 6:  # Check if the list is not empty
             unit = goods_units[0]  # Get the first product
 
             # Get goods number
