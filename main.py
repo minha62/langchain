@@ -31,10 +31,22 @@ app = FastAPI()
 async def search(item: Item):
     filtering_url = Filtering(item.apikey, item.userNeed)
     print(filtering_url)
+    json = {}
+    json["filtering"] = ProductList(filtering_url)
+    return json
 
+    #mg_url = Magazine(item.apikey, item.userNeed)
+    #print(mg_url)
+    #return {"filteringUrl": filtering_url, "magazineUrl": mg_url}
+
+@app.post("/items/magazines")
+async def search(item: Item):
     mg_url = Magazine(item.apikey, item.userNeed)
     print(mg_url)
-    return {"filteringUrl": filtering_url, "magazineUrl": mg_url}
+    json = {}
+    json["magazines"] = MgProducts(mg_url)
+    return json
+
 
 @app.post("/items/ftList")
 async def prodcut_list(item: Url):
