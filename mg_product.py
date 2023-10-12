@@ -12,12 +12,12 @@ def MgProducts(mg_search_url):
     mg_list = soup.find_all('li', class_='listItem')
     mg_urls = []
     # Limit the loop to the first 5 items
-    for unit in mg_list[:5]:
+    for unit in mg_list[:10]:
         # Get product URL
         mg_url = unit.find('div', class_='articleInfo').a.get('href')
         if "magazine" in mg_url or "news" in mg_url:
             mg_urls.append(mg_url)
-    # print(len(mg_urls))
+    print(len(mg_urls))
 
     result = True
     mg_clothes = []
@@ -33,8 +33,13 @@ def MgProducts(mg_search_url):
         #step3 : 관련상품 url 가져오기
         goods_units = soup.find_all('li', class_='goods-unit')
 
-        if goods_units and len(mg_clothes) < 9:  # Check if the list is not empty
-            for unit in goods_units[:5]:
+        if goods_units:
+            for unit in goods_units[:5]: # 한 매거진마다 5개 상품 가져오기
+                # 상품 9개 가져오면 종료
+                if len(mg_clothes) >= 9: break
+
+                unit = goods_units[i]
+
                 # Get goods number
                 goods_no = unit.get('goods_no')
 
@@ -70,6 +75,7 @@ def MgProducts(mg_search_url):
 
     if len(mg_clothes)==0:
         result = False
+    print(len(mg_clothes))
 
     return {"result": result, "clothes": mg_clothes}
 
