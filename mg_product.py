@@ -12,7 +12,7 @@ def MgProducts(mg_search_url):
     mg_list = soup.find_all('li', class_='listItem')
     mg_urls = []
     # Limit the loop to the first 5 items
-    for unit in mg_list[:10]:
+    for unit in mg_list[:5]:
         # Get product URL
         mg_url = unit.find('div', class_='articleInfo').a.get('href')
         if "magazine" in mg_url or "news" in mg_url:
