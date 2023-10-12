@@ -11,8 +11,8 @@ def MgProducts(mg_search_url):
 
     mg_list = soup.find_all('li', class_='listItem')
     mg_urls = []
-    # Limit the loop to the first 10 items
-    for unit in mg_list[:10]:
+    # Limit the loop to the first 5 items
+    for unit in mg_list[:5]:
         # Get product URL
         mg_url = unit.find('div', class_='articleInfo').a.get('href')
         if "magazine" in mg_url or "news" in mg_url:
@@ -33,7 +33,7 @@ def MgProducts(mg_search_url):
         #step3 : 관련상품 url 가져오기
         goods_units = soup.find_all('li', class_='goods-unit')
 
-        if goods_units and len(mg_clothes) < 20:  # Check if the list is not empty
+        if goods_units and len(mg_clothes) < 9:  # Check if the list is not empty
             for unit in goods_units[:5]:
                 # Get goods number
                 goods_no = unit.get('goods_no')
