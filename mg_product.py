@@ -38,8 +38,6 @@ def MgProducts(mg_search_url):
                 # 상품 9개 가져오면 종료
                 if len(mg_clothes) >= 9: break
 
-                unit = goods_units[i]
-
                 # Get goods number
                 goods_no = unit.get('goods_no')
 
@@ -80,6 +78,6 @@ def MgProducts(mg_search_url):
     return {"result": result, "clothes": mg_clothes}
 
 
-url = "https://www.musinsa.com/search/musinsa/magazine?q=y2k"
-print(MgProducts(url))
+# url = "https://www.musinsa.com/search/musinsa/magazine?q=y2k"
+# print(MgProducts(url))
 # MgProducts(url)
