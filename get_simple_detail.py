@@ -35,6 +35,7 @@ def GetSimpleDetail(url):
     driver.execute_script("arguments[0].querySelector('#mysize').remove();", size_info)
     size_info = size_info.text
 
+    #if driver.find_elements(By.)
     first_up_review = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[0]
     if first_up_review:
         content_element = first_up_review.find_element(By.CSS_SELECTOR, 'div.review-contents__text')

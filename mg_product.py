@@ -78,6 +78,6 @@ def MgProducts(mg_search_url):
     return {"result": result, "clothes": mg_clothes}
 
 
-url = "https://www.musinsa.com/search/musinsa/magazine?q=y2k"
-print(MgProducts(url))
+# url = "https://www.musinsa.com/search/musinsa/magazine?q=y2k"
+# print(MgProducts(url))
 # MgProducts(url)
