@@ -1,5 +1,5 @@
 # 파이썬 베이스 이미지 사용
-FROM python:3.8-slim
+FROM python:3.11.3
 
 # 작업 디렉토리 설정
 WORKDIR /app
@@ -14,11 +14,11 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
     apt-get install -y ./google-chrome-stable_current_amd64.deb && \
     rm google-chrome-stable_current_amd64.deb
 
-RUN wget https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip && \
-    unzip chromedriver_linux64.zip && \
+RUN wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/118.0.5993.70/linux64/chromedriver-linux64.zip && \
+    unzip chromedriver-linux64.zip && \
     mv chromedriver /usr/bin/chromedriver && \
     chmod +x /usr/bin/chromedriver && \
-    rm chromedriver_linux64.zip
+    rm chromedriver-linux64.zip
 
 # 환경 변수 설정
 ENV GOOGLE_CHROME_BIN /usr/bin/google-chrome
