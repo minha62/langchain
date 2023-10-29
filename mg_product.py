@@ -35,7 +35,7 @@ def MgProducts(mg_search_url):
 
         if goods_units:
             for unit in goods_units[:10]: # 한 매거진마다 10개 상품 가져오기
-                # 상품 5개 가져오면 종료
+                # 상품 9개 가져오면 종료
                 if len(mg_clothes) >= 9: break
 
                 # Get goods number

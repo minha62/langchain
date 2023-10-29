@@ -9,6 +9,7 @@ from mg_product import MgProducts
 from simple_detail import SimpleDetail
 from size_reco import SizeReco
 from review_summ import ReviewSumm
+from fastapi.middleware.cors import CORSMiddleware
 
 class Item(BaseModel):
     apikey: str
@@ -27,17 +28,32 @@ class Detail(BaseModel):
 
 app = FastAPI()
 
-@app.post("/items/")
-async def search(item: Item):
-    filtering_url = Filtering(item.apikey, item.userNeed)
-    print(filtering_url)
-    json = {}
-    json["filtering"] = ProductList(filtering_url)
+# origins에는 protocal, domain, port만 등록
+origins = [
+    # "http://192.168.0.13:3000", # url을 등록해도 되고
+    "*" # private 영역에서 사용한다면 *로 모든 접근을 허용할 수 있다.
+]
 
-    mg_url = Magazine(item.apikey, item.userNeed)
-    print(mg_url)
-    json["magazines"] = MgProducts(mg_url)
-    return json
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True, # cookie 포함 여부 설정. default는 False
+    allow_methods=["*"],    # 허용할 method 설정. default는 GET
+    allow_headers=["*"],	# 허용할 http header 목록 설정. Content-Type, Accept, Accept-Language, Content-Language은 항상 허용
+)
+
+
+# @app.post("/items/")
+# async def search(item: Item):
+#     filtering_url = Filtering(item.apikey, item.userNeed)
+#     print(filtering_url)
+#     json = {}
+#     json["filtering"] = ProductList(filtering_url)
+
+#     mg_url = Magazine(item.apikey, item.userNeed)
+#     print(mg_url)
+#     json["magazines"] = MgProducts(mg_url)
+#     return json
 
 @app.post("/items/filtering")
 async def search(item: Item):

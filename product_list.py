@@ -14,19 +14,37 @@ def ProductList(filtering_url):
     # print(len(list)) # 90개
 
     clothes = []
-    for i in range(9):
+    for i in range(30):
+        if len(clothes) > 27: break
         cl = list[i]
         num = cl.get('data-no')
 
         element = cl.find('div', class_='li_inner')
 
-        url = element.find('a', class_='img-block').get('href')
-        img = element.find('img', class_='lazyload lazy').get('data-original')
-        brand = element.find('p', class_='item_title').find('a').text
-        title = element.find('p', class_='list_info').find('a').text.strip() if element.find('p', class_='list_info') else None
+        if element.find('a', class_='img-block').get('href'):
+            url = element.find('a', class_='img-block').get('href')
+        else: continue
 
-        price = element.find('p', class_='price') if element.find('p', class_='price') else None
-        orig_price = price.find('del').text.strip() if element.find('del') else None
+        if element.find('img', class_='lazyload lazy').get('data-original'):
+            img = element.find('img', class_='lazyload lazy').get('data-original')
+        else: continue
+
+        if element.find('p', class_='item_title').find('a'):
+            brand = element.find('p', class_='item_title').find('a').text
+        else: continue
+
+        if element.find('p', class_='list_info'):
+            title = element.find('p', class_='list_info').find('a').text.strip()
+        else: continue
+
+        if element.find('p', class_='price'):
+            price = element.find('p', class_='price') 
+        else: continue
+
+        if element.find('del'):
+            orig_price = price.find('del').text.strip() 
+        else: continue
+
         discounted_price = price.get_text(strip=True).replace(orig_price, '') if orig_price else price.text.strip()
 
         info = {
