@@ -9,7 +9,7 @@ from mg_product import MgProducts
 from simple_detail import SimpleDetail
 from size_reco import SizeReco
 from review_summ import ReviewSumm
-from ask_pine import Ask
+from ask import Ask
 from fastapi.middleware.cors import CORSMiddleware
 
 class Item(BaseModel):
@@ -60,7 +60,7 @@ async def search(item: Item):
 
 @app.post("/items/details")
 async def simple_detail(item: Detail):
-    return SimpleDetail(item.apikey, item.id)
+    return SimpleDetail(item.id)
 
 @app.post("/items/details/size")
 async def size_reco(item: Detail):

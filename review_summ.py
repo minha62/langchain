@@ -31,7 +31,7 @@ def ReviewSumm(apikey, id):
         # The result should be like this: Example)[Useful Reviews]\n- 시보리가 짱짱해서 마음에 든다.\n- 블랙과 핑크 조합이 귀엽다.\n- 예쁜 디자인과 색상으로 인기가 많다.\n[Low Rated Reviews]\n- 품질과 핏이 좋지만 목부분이 살짝 감긴다.\n- 팔 길이가 짧다.\n- 사이즈 종류가 다양했으면 좋겠다.
         result = gpt(up_reviews_eng, worst_reviews_eng, review_sum_template)
         result_ko = translator.translate_text(result, target_lang="KO")
-        reviewSumm = "구매자들의 리뷰를 유용한 리뷰와 평점이 낮은 리뷰로 나눠서 요약해드리겠습니다.\n" + result_ko
+        reviewSumm = "구매자들의 리뷰를 유용한 리뷰와 평점이 낮은 리뷰로 나눠서 요약해드리겠습니다.\n" + str(result_ko)
     else:
         reviewSumm = "리뷰가 존재하지 않습니다."
 

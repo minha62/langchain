@@ -1,40 +1,79 @@
-import openai
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+# from webdriver_manager.chrome import ChromeDriverManager
+import os
 
-from get_simple_detail import GetSimpleDetail
+def SimpleDetail(url):
+    # Chrome 옵션 설정
+    options = webdriver.ChromeOptions()
+    options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") # for heroku
+    options.add_argument('--headless')  # 브라우저 창 숨기기
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--no-sandbox')
 
-def gpt(delivery, size_options, best_review, template):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        temperature=0.9,
-        messages=[{"role": "system", "content": template},
-                  {"role": "user", "content": f"{delivery} {size_options} {best_review}"}],
-        max_tokens=200  # 원하는 최대 토큰 수를 설정
-    )
+    service = Service(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
 
-    return response.choices[0].message.content.strip()
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) # local
+    driver = webdriver.Chrome(service=service, options=options) # for heroku
+    driver.get(url)
 
-def SimpleDetail(apikey, id):
-    openai.api_key = apikey
-    url = 'https://www.musinsa.com/app/goods/' + id
-    simple_detail = GetSimpleDetail(url)
-    delivery = simple_detail["delivery"]
-    size_options = str(simple_detail["size_info"])
-    best_review = str(simple_detail["best_review"])
+    # 상품 별점 가져오기
+    score = driver.find_element(By.CLASS_NAME, 'prd-score__rating').text + "/5.0"
+
+    # 후기 개수 가져오기
+    review_count = driver.find_element(By.CLASS_NAME, 'prd-score__review-count').text.replace(" 보기", "")
+
+    # 상품 카테고리 가져오기
+    categories = driver.find_element(By.CLASS_NAME, 'article-tag-list').text.replace("\n", " ")
+
+    # 많이 구매한 고객의 연령대, 성별 가져오기
+    popular = driver.find_element(By.CSS_SELECTOR, '#graph_summary_area').text.replace(' 에게 인기 많은 상품', '')
+
+    # 도착 예정일 가져오기
+    delivery = driver.find_element(By.CSS_SELECTOR, 'div.CArrivalInformation__text').text.replace(' 도착 예정', '')
+
+    # 가격 가져오기
+    price = driver.find_element(By.CSS_SELECTOR, '#list_price').text
+
+    # 사이즈 정보 가져오기
+    size_table = driver.find_element(By.CSS_SELECTOR, '#size_table tbody')
+    size_rows = size_table.find_elements(By.TAG_NAME, 'tr')
+    size_data = {}
+    for row in size_rows[2:]:
+        size_name = row.find_element(By.TAG_NAME, 'th').text
+        size_values = [td.text for td in row.find_elements(By.CLASS_NAME, 'goods_size_val')]
+        size_data[size_name] = size_values
+
+    output = "[평점]\n" + score + "  (" + review_count + ")\n\n" + "[구매층]\n" + popular + "\n\n[사이즈 옵션]\n" + str(list(size_data.keys())).replace('\'','').replace('[','').replace(']','') + "\n\n[도착 예정일]\n" + delivery + "\n\n[카테고리]\n" + categories
+
+    first_up_review = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[0]
+    if first_up_review:
+        review = {}
+        try:
+            profile_element = first_up_review.find_element(By.CSS_SELECTOR, 'p.review-profile__body_information')
+            review["profile"] = profile_element.text
+        except:
+            review["profile"] = "비회원"
+
+        try:
+            size_element = first_up_review.find_element(By.CSS_SELECTOR, 'span.review-goods-information__option')
+            review["size"] = size_element.text
+        except:
+            review["size"] = "None"
+
+        try:
+            content = first_up_review.find_element(By.CSS_SELECTOR, 'div.review-contents__text')
+            review["content"] = content.text.replace('\n', '')
+        except:
+            review["content"] = "None"
+
+        try:
+            review_img = first_up_review.find_element(By.CLASS_NAME, 'review-content-photo__item').find_element(By.TAG_NAME, 'img').get_attribute('src')
+            review["img"] = 'https:' + review_img
+        except:
+            review["img"] = "None"
+        
+        output += '\n\n[가장 유용한 리뷰]\n' + review['profile'] + ' · ' + review['size'] + ' 구매\n\"' + review['content'] + '\"'
     
-    input = delivery + size_options + best_review
-    print(input)
-
-    simple_detail_template = """You are the helpful agent that summarizes product information from input contents. You should show size options. Don't add specific length(cm) for size. You should let customers know the date of delivery arrival. You should show the summary of the review if review is not None.
-    The result should be like this: Example1)사이즈 옵션: S, M, L\n도착 예정일: 10/7(토)\n가장 유용한 리뷰: 여성·164cm/49kg·M 사이즈, "적당한 오버핏으로 길이도 키에 딱 맞아서 편하고 예쁘고 후드티 핏이 좋다" Example2)사이즈 옵션: M, L\n도착 예정일: 10/6(금)\n가장 유용한 리뷰: 여성·162cm/53kg·L 사이즈, "품과 길이가 모두 만족스럽다"
-    If profile in the best review is None, the result should be like this: Example)사이즈 옵션: FREE\n도착 예정일: 10/12(목)\n가장 유용한 리뷰: 비회원·FREE 사이즈, "색상은 상세페이지와 비슷하지만 사이즈가 매우 크다\""""
-
-    simple_detail = gpt(delivery, size_options, best_review, simple_detail_template)
-
-    return { 
-        "simple_detail": simple_detail,
-        }
-
-# from apikey import apikey
-# url = 'https://www.musinsa.com/app/goods/3056893'
-# #url = 'https://www.musinsa.com/app/goods/3603803'
-# print(SimpleDetail(apikey, url))
+    return {"simple_detail":output, "img":review['img']}
