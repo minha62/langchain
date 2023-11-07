@@ -5,41 +5,40 @@ from selenium.webdriver.chrome.service import Service
 import time
 import os
 
-def GetReviews(url):
+def GetReviews(url, num=3):
     def reviewObject(reviewElements):
         reviews = []
         for re in reviewElements:
-            # review = {}
+            review = {}
 
-            # try:
-            #     profile_element = re.find_element(By.CSS_SELECTOR, 'p.review-profile__body_information')
-            #     review["profile"] = profile_element.text
-            # except:
-            #     review["profile"] = "None"
+            try:
+                profile_element = re.find_element(By.CSS_SELECTOR, 'p.review-profile__body_information')
+                review["profile"] = profile_element.text
+            except:
+                review["profile"] = "비회원"
 
-            # try:
-            #     size_element = re.find_element(By.CSS_SELECTOR, 'span.review-goods-information__option')
-            #     review["size"] = size_element.text
-            # except:
-            #     review["size"] = "None"
+            try:
+                size_element = re.find_element(By.CSS_SELECTOR, 'span.review-goods-information__option')
+                review["size"] = size_element.text
+            except:
+                review["size"] = "None"
 
-            # try:
-            #     score = re.find_element(By.CSS_SELECTOR, 'span.review-list__rating__active')
-            #     score_percent = score.get_attribute('style').split('width:')[1].split('%')[0].strip()
-            #     review["score"] = score_percent
-            # except:
-            #     review["score"] = "None"
+            try:
+                score = re.find_element(By.CSS_SELECTOR, 'span.review-list__rating__active')
+                score_percent = score.get_attribute('style').split('width:')[1].split('%')[0].strip()
+                review["score"] = int(score_percent) // 20
+            except:
+                review["score"] = "None"
 
             try:
                 content_element = re.find_element(By.CSS_SELECTOR, 'div.review-contents__text')
-                #review["content"] = content_element.text
-                review_content = content_element.text.replace(' ', '').replace('\n', '')
-                reviews.append(review_content)
+                review["content"] = content_element.text.replace('\n', '')
+                # review_content = content_element.text.replace('\n', '')
+                # reviews.append(review_content)
             except:
-                # review["content"] = "None"
-                reviews.append("")
-
-            #reviews.append(review)
+                review["content"] = "None"
+                # reviews.append("")
+            reviews.append(review)
         return reviews
 
     # Chrome 옵션 설정
@@ -55,10 +54,10 @@ def GetReviews(url):
     driver = webdriver.Chrome(service=service, options=options) # for heroku
     driver.get(url)
 
-    # 유용한 순 리뷰 3개 가져오기
-    up_reviews_3 = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[:3]
-    if up_reviews_3:
-        up_reviews = reviewObject(up_reviews_3)
+    # 유용한 순 리뷰 가져오기
+    data = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[:num]
+    if data:
+        up_reviews = reviewObject(data)
     else:
         up_reviews = None
 
@@ -68,10 +67,10 @@ def GetReviews(url):
     low_rating_option.click()
     time.sleep(2)  # 페이지 업데이트를 기다리기
 
-    # 평점 낮은 순 리뷰 3개 가져오기
-    worst_reviews_3 = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[:3]
-    if worst_reviews_3:
-        worst_reviews = reviewObject(worst_reviews_3)
+    # 평점 낮은 순 리뷰 가져오기
+    data = driver.find_elements(By.CSS_SELECTOR, 'div.review-list')[:num]
+    if data:
+        worst_reviews = reviewObject(data)
     else:
         worst_reviews = None
 

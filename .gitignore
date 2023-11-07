@@ -3,11 +3,7 @@ __pycache__
 langchain
 apikey.py
 test.py
-mg.py
-mg_product_orig.py
-magazine_test.py
-magazine_list.py
-product_detail_playwright.py
-product_detail_test.py
-product_details_all.py
-product_element_all.py
+crawling
+ask_pine.py
+pine.py
+html.txt

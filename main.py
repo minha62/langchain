@@ -9,22 +9,21 @@ from mg_product import MgProducts
 from simple_detail import SimpleDetail
 from size_reco import SizeReco
 from review_summ import ReviewSumm
+from ask import Ask
 from fastapi.middleware.cors import CORSMiddleware
 
 class Item(BaseModel):
     apikey: str
     userNeed: str
 
-class listUrl(BaseModel):
-    filteringUrl: str
-    magazineUrl: str
-
-class Url(BaseModel):
-    productUrl: str
-
 class Detail(BaseModel):
     apikey: str
-    productUrl: str
+    productUrl: str # id로 변경하기
+
+class Question(BaseModel):
+    apikey: str
+    user_question: str
+    id: str
 
 app = FastAPI()
 
@@ -42,18 +41,6 @@ app.add_middleware(
     allow_headers=["*"],	# 허용할 http header 목록 설정. Content-Type, Accept, Accept-Language, Content-Language은 항상 허용
 )
 
-
-# @app.post("/items/")
-# async def search(item: Item):
-#     filtering_url = Filtering(item.apikey, item.userNeed)
-#     print(filtering_url)
-#     json = {}
-#     json["filtering"] = ProductList(filtering_url)
-
-#     mg_url = Magazine(item.apikey, item.userNeed)
-#     print(mg_url)
-#     json["magazines"] = MgProducts(mg_url)
-#     return json
 
 @app.post("/items/filtering")
 async def search(item: Item):
@@ -83,3 +70,7 @@ async def size_reco(item: Detail):
 @app.post("/items/details/review")
 async def review_summ(item: Detail):
     return ReviewSumm(item.apikey, item.productUrl)
+
+@app.post("/items/ask")
+async def question_ask(item: Question):
+    return Ask(item.apikey, item.user_question, item.id)
