@@ -32,8 +32,9 @@ def get_conversation_chain(vectorstore):
     )
     return conversation_chain
 
-def Ask(apikey, user_question, url):
+def Ask(apikey, user_question, id):
     os.environ['OPENAI_API_KEY'] = apikey
+    url = 'https://www.musinsa.com/app/goods/' + id
     # with open('html.txt') as f:
     #     raw_text = f.read()
 

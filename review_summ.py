@@ -2,7 +2,7 @@ import openai
 import deepl
 import os
 
-from crawling.get_reviews import GetReviews
+from get_reviews import GetReviews
 
 def gpt(up_reviews, worst_reviews, template):
     response = openai.ChatCompletion.create(
@@ -15,11 +15,12 @@ def gpt(up_reviews, worst_reviews, template):
 
     return response.choices[0].message.content.strip()
 
-def ReviewSumm(apikey, url):
+def ReviewSumm(apikey, id):
     openai.api_key = apikey
     auth_key = os.getenv("DEEPL_API_KEY")
     translator = deepl.Translator(auth_key=auth_key)
 
+    url = 'https://www.musinsa.com/app/goods/' + id
     up_reviews, worst_reviews = GetReviews(url)
     up_reviews_eng = translator.translate_text(up_reviews, target_lang="EN-US")
     worst_reviews_eng = translator.translate_text(worst_reviews, target_lang="EN-US")

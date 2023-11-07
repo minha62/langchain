@@ -13,8 +13,9 @@ def gpt(delivery, size_options, best_review, template):
 
     return response.choices[0].message.content.strip()
 
-def SimpleDetail(apikey, url):
+def SimpleDetail(apikey, id):
     openai.api_key = apikey
+    url = 'https://www.musinsa.com/app/goods/' + id
     simple_detail = GetSimpleDetail(url)
     delivery = simple_detail["delivery"]
     size_options = str(simple_detail["size_info"])

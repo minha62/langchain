@@ -25,8 +25,9 @@ def gpt(input, template):
 
     return conversation_with_kg.predict(input=input).strip()
 
-def SizeReco(apikey, url):
+def SizeReco(apikey, id):
     os.environ['OPENAI_API_KEY'] = apikey
+    url = 'https://www.musinsa.com/app/goods/' + id
     size_reco = GetSizeReco(url)
 
     if size_reco:
