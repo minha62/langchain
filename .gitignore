@@ -7,3 +7,5 @@ crawling
 ask_pine.py
 pine.py
 html.txt
+addPinecone.py
+get_ids.py

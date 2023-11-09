@@ -1,11 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-# from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
 
-def GetReviews(url, num=3):
+def GetReviews(url, num=3, local=False):
     def reviewObject(reviewElements):
         reviews = []
         for re in reviewElements:
@@ -43,15 +43,16 @@ def GetReviews(url, num=3):
 
     # Chrome 옵션 설정
     options = webdriver.ChromeOptions()
-    options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") # for heroku
     options.add_argument('--headless')  # 브라우저 창 숨기기
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--no-sandbox')
 
-    service = Service(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
-
-    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) # local
-    driver = webdriver.Chrome(service=service, options=options) # for heroku
+    if local:
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    else:
+        service = Service(executable_path=os.environ.get("CHROMEDRIVER_PATH"))
+        options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
 
     # 유용한 순 리뷰 가져오기

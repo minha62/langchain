@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.service import Service
 # from webdriver_manager.chrome import ChromeDriverManager
 import os
 
-def SimpleDetail(url):
+def SimpleDetail(id):
     # Chrome 옵션 설정
     options = webdriver.ChromeOptions()
     options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") # for heroku
@@ -16,6 +16,8 @@ def SimpleDetail(url):
 
     # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) # local
     driver = webdriver.Chrome(service=service, options=options) # for heroku
+
+    url = 'https://www.musinsa.com/app/goods/' + id
     driver.get(url)
 
     # 상품 별점 가져오기
@@ -70,7 +72,9 @@ def SimpleDetail(url):
 
         try:
             review_img = first_up_review.find_element(By.CLASS_NAME, 'review-content-photo__item').find_element(By.TAG_NAME, 'img').get_attribute('src')
-            review["img"] = 'https:' + review_img
+            if 'https:' not in review_img:
+                review_img = 'https:' + review_img
+            review["img"] = review_img
         except:
             review["img"] = "None"
         

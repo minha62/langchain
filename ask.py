@@ -52,7 +52,7 @@ def Ask(apikey, user_question, id):
     conversation_chain = get_conversation_chain(vectorstore)
 
     response = conversation_chain({"question": user_question})['answer']
-    return response
+    return {"response":response}
     
 
 # user_question="구매한 사람들의 키/몸무게는 어느 정도야?"
