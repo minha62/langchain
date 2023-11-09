@@ -38,20 +38,20 @@ def ProductList(filtering_url):
         else: continue
 
         if element.find('p', class_='price'):
-            price = element.find('p', class_='price') 
+            price = element.find('p', class_='price')
         else: continue
 
         if element.find('del'):
-            orig_price = price.find('del').text.strip() 
-        else: continue
-
-        discounted_price = price.get_text(strip=True).replace(orig_price, '') if orig_price else price.text.strip()
+            orig_price = price.find('del').text.strip()
+            price = price.get_text(strip=True).replace(orig_price, '')
+        else:
+            price = price.text.strip()
 
         info = {
             "no": num,
             "name": title,
             "brand": brand,
-            "price": discounted_price,
+            "price": price,
             "img": img,
             "url": 'https:' + url,
         }
@@ -59,3 +59,5 @@ def ProductList(filtering_url):
     if len(clothes) == 0:
         result = False
     return {"result": result, "clothes": clothes}
+
+print(ProductList("https://www.musinsa.com/categories/item/001005?color=2&includeKeywords=마르디"))
