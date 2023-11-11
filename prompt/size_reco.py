@@ -1,10 +1,10 @@
 import os
-
+from cache_utils import cache
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationKGMemory
-from get_size_reco import GetSizeReco
+from getData.get_size_reco import GetSizeReco
 
 def gpt(input, template):
     llm = OpenAI(temperature=0.9)
@@ -27,8 +27,12 @@ def gpt(input, template):
 
 def SizeReco(apikey, id):
     os.environ['OPENAI_API_KEY'] = apikey
-    url = 'https://www.musinsa.com/app/goods/' + id
-    size_reco = GetSizeReco(url)
+    cache_key = f"{id}_size"
+    size_reco = cache.get(cache_key)
+    if size_reco is None:
+        url = 'https://www.musinsa.com/app/goods/' + id
+        size_reco = GetSizeReco(url)
+        cache[cache_key] = size_reco
 
     if size_reco:
         size_reco_template = """You are the helpful agent that recommends height and weight per size options from input size contents. Calculate average range of heights and weights per sizes and sex. If there is no data in one size option, don't print height and weight but "데이터 없음".

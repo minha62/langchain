@@ -2,14 +2,14 @@
 from cache_utils import cache
 from fastapi import FastAPI
 from pydantic import BaseModel
-from filtering import Filtering
-from product_list import ProductList
-from magazines import Magazine
-from mg_product import MgProducts
+from prompt.filtering import Filtering
+from getData.get_ft_list import ProductList
+from prompt.magazines import Magazine
+from getData.get_mg_list import MgProducts
 # from product_details_all import Details
-from simple_detail import SimpleDetail
-from size_reco import SizeReco
-from review_summ import ReviewSumm
+from getData.get_simple_detail import SimpleDetail
+from prompt.size_reco import SizeReco
+from prompt.review_summ import ReviewSumm
 from ask import Ask
 from fastapi.middleware.cors import CORSMiddleware
 

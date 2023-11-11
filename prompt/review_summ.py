@@ -3,7 +3,7 @@ import openai
 import deepl
 import os
 
-from get_reviews import GetReviews
+from getData.get_reviews import GetReviews
 
 def gpt(up_reviews, worst_reviews, template):
     response = openai.ChatCompletion.create(
@@ -18,18 +18,22 @@ def gpt(up_reviews, worst_reviews, template):
 
 def ReviewSumm(apikey, id):
     openai.api_key = apikey
-    auth_key = os.getenv("DEEPL_API_KEY")
-    translator = deepl.Translator(auth_key=auth_key)
 
     cache_key = f"{id}_reviews"
-    # result = cache.get(cache_key)
-    # if result is None:
-    #     result = ReviewSumm(item.apikey, item.id)
-    #     cache[cache_key] = result
-    url = 'https://www.musinsa.com/app/goods/' + id
-    up_reviews, worst_reviews = GetReviews(url)
-    up_reviews_eng = translator.translate_text(up_reviews, target_lang="EN-US")
-    worst_reviews_eng = translator.translate_text(worst_reviews, target_lang="EN-US")
+    reviews = cache.get(cache_key)
+    if reviews is None:
+        url = 'https://www.musinsa.com/app/goods/' + id
+        up_reviews, worst_reviews = GetReviews(url)
+        if up_reviews:
+            auth_key = os.getenv("DEEPL_API_KEY")
+            translator = deepl.Translator(auth_key=auth_key)
+            up_reviews_eng = translator.translate_text(up_reviews, target_lang="EN-US")
+            worst_reviews_eng = translator.translate_text(worst_reviews, target_lang="EN-US")
+        reviews = {"up_reviews":up_reviews_eng, "worst_reviews":worst_reviews_eng}
+        cache[cache_key] = reviews
+
+    up_reviews = reviews["up_reviews"]
+    worst_reviews = reviews["worst_reviews"]
 
     if up_reviews:
         review_sum_template = """You are the helpful agent that summarize best reviews and worst reviews as 2~3 sentences separately. You must return summaries in Korean.
