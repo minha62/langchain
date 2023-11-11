@@ -2,11 +2,10 @@ __pycache__
 .env
 langchain
 apikey.py
-test.py
-crawling
+tmp
 ask_pine.py
 pine.py
 html.txt
 addPinecone.py
-get_ids.py
+getData.get_ids.py
 details.py

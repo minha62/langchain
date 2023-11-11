@@ -1,3 +1,4 @@
+from cache_utils import cache
 import openai
 import deepl
 import os
@@ -20,6 +21,11 @@ def ReviewSumm(apikey, id):
     auth_key = os.getenv("DEEPL_API_KEY")
     translator = deepl.Translator(auth_key=auth_key)
 
+    cache_key = f"{id}_reviews"
+    # result = cache.get(cache_key)
+    # if result is None:
+    #     result = ReviewSumm(item.apikey, item.id)
+    #     cache[cache_key] = result
     url = 'https://www.musinsa.com/app/goods/' + id
     up_reviews, worst_reviews = GetReviews(url)
     up_reviews_eng = translator.translate_text(up_reviews, target_lang="EN-US")
