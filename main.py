@@ -1,4 +1,5 @@
 #from typing import Any
+from cache_utils import cache
 from fastapi import FastAPI
 from pydantic import BaseModel
 from filtering import Filtering
@@ -45,30 +46,61 @@ app.add_middleware(
 @app.post("/items/filtering")
 async def search(item: Item):
     filtering_url = Filtering(item.apikey, item.userNeed)
-    print(filtering_url)
-    json = {}
-    json["filtering"] = ProductList(filtering_url)
-    return json
+
+    # Use the url to generate a unique cache key
+    cache_key = filtering_url
+
+    # Check if the result is already in the cache
+    result = cache.get(cache_key)
+
+    if result is None:
+        # If not, perform ProductList and store the result in the cache
+        result = ProductList(filtering_url)
+        cache[cache_key] = result
+    return {"filtering":result}
 
 @app.post("/items/magazines")
 async def search(item: Item):
     mg_url = Magazine(item.apikey, item.userNeed)
-    print(mg_url)
-    json = {}
-    json["magazines"] = MgProducts(mg_url)
-    return json
+
+     # Use the url to generate a unique cache key
+    cache_key = mg_url
+
+    # Check if the result is already in the cache
+    result = cache.get(cache_key)
+
+    if result is None:
+        # If not, perform ProductList and store the result in the cache
+        result = MgProducts(mg_url)
+        cache[cache_key] = result
+    return {"magazines":result}
 
 @app.post("/items/details")
 async def simple_detail(item: Detail):
-    return SimpleDetail(item.id)
+    cache_key = f"{item.id}_simple_detail"
+    result = cache.get(cache_key)
+    if result is None:
+        result = SimpleDetail(item.id)
+        cache[cache_key] = result
+    return result
 
 @app.post("/items/details/size")
 async def size_reco(item: Detail):
-    return SizeReco(item.apikey, item.id)
+    cache_key = f"{item.id}_size_reco"
+    result = cache.get(cache_key)
+    if result is None:
+        result = SizeReco(item.apikey, item.id)
+        cache[cache_key] = result
+    return result
 
 @app.post("/items/details/review")
 async def review_summ(item: Detail):
-    return ReviewSumm(item.apikey, item.id)
+    cache_key = f"{item.id}_review_summ"
+    result = cache.get(cache_key)
+    if result is None:
+        result = ReviewSumm(item.apikey, item.id)
+        cache[cache_key] = result
+    return result
 
 @app.post("/items/ask")
 async def question_ask(item: Question):
