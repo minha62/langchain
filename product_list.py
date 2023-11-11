@@ -59,5 +59,3 @@ def ProductList(filtering_url):
     if len(clothes) == 0:
         result = False
     return {"result": result, "clothes": clothes}
-
-print(ProductList("https://www.musinsa.com/categories/item/001005?color=2&includeKeywords=마르디"))
